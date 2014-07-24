@@ -13,7 +13,7 @@ var optimist = require('optimist')
   , describe: 'Name for the output file.'
   })
   .options('priority', {
-    alias: 'p'
+    alias: 'y'
   , 'default': ''
   , describe: 'The JSON list of audio aliases by priority.'
   })

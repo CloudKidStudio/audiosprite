@@ -28,7 +28,7 @@ npm install -g audiosprite
 info: Usage: audiosprite [options] file1.mp3 file2.mp3 *.wav
 info: Options:
   --output, -o      Name for the output file.                                    [default: "output"]
-  --priority, -p    The JSON list of audio aliases by priority.                  [default: ""]
+  --priority, -y    The JSON list of audio aliases by priority.                  [default: ""]
   --export, -e      Limit exported file types. Comma separated extension list.   [default: ""]
   --log, -l         Log level (debug, info, notice, warning, error).             [default: "info"]
   --autoplay, -a    Autoplay sprite name                                         [default: null]
