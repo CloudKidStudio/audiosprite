@@ -118,7 +118,7 @@ spawn('ffmpeg', ['-version']).on('exit', function(code) {
       start: 0
     , end: argv.silence
     , loop: true
-    , priority: 0
+    , priority: getPriority('silence')
     }
     if (!argv.autoplay) {
       json.autoplay = 'silence'
@@ -192,11 +192,29 @@ function appendFile(name, src, dest, cb) {
       start: offsetCursor
     , end: offsetCursor + duration
     , loop: name === argv.autoplay
-    , priority: priority[name] || 0
+    , priority: getPriority(name)
     }
     offsetCursor += duration
     appendSilence(Math.ceil(duration) - duration + 1, dest, cb)
   })
+}
+
+function getPriority(alias) {
+  var p = 0;
+  _.each(priority, function(value, key, list) {
+    // conains a wildcard and wildcard test is true
+    if (key.indexOf("*") > -1) {
+      // Turn the wildcard into a regular expression
+      var exp = new RegExp(key.replace("*", ".*"));
+      if (exp.test(alias)) {
+        p = value;
+      }
+    }
+    else if (key === alias) {
+      p = value;
+    }
+  });
+  return p;
 }
 
 function appendSilence(duration, dest, cb) {
