@@ -12,6 +12,11 @@ var optimist = require('optimist')
   , 'default': 'output'
   , describe: 'Name for the output file.'
   })
+  .options('priority', {
+    alias: 'p'
+  , 'default': ''
+  , describe: 'The JSON list of audio aliases by priority.'
+  })
   .options('export', {
     alias: 'e'
   , 'default': ''
@@ -84,6 +89,14 @@ if (argv.help || !files.length) {
   process.exit(1)
 }
 
+var priority = {};
+if (argv.priority){
+  try {
+    priority = (JSON.parse(fs.readFileSync(argv.priority, "utf8")));
+  }
+  catch(e){}
+}
+
 var offsetCursor = 0
 var wavArgs = ['-ar', SAMPLE_RATE, '-ac', NUM_CHANNELS, '-f', 's16le']
 var tempFile = mktemp('audiosprite')
@@ -105,6 +118,7 @@ spawn('ffmpeg', ['-version']).on('exit', function(code) {
       start: 0
     , end: argv.silence
     , loop: true
+    , priority: 0
     }
     if (!argv.autoplay) {
       json.autoplay = 'silence'
@@ -178,6 +192,7 @@ function appendFile(name, src, dest, cb) {
       start: offsetCursor
     , end: offsetCursor + duration
     , loop: name === argv.autoplay
+    , priority: priority[name] || 0
     }
     offsetCursor += duration
     appendSilence(Math.ceil(duration) - duration + 1, dest, cb)
