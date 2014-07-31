@@ -185,7 +185,7 @@ function appendFile(name, src, dest, cb) {
   reader.on('data', function(data) {
     size += data.length
   })
-  require('util').pump(reader, writer, function() {
+  reader.on('close', function() {
     var duration = size / SAMPLE_RATE / NUM_CHANNELS / 2
     winston.info('File added OK', { file: src, duration: duration })
     json.spritemap[name] = {
@@ -197,6 +197,7 @@ function appendFile(name, src, dest, cb) {
     offsetCursor += duration
     appendSilence(Math.ceil(duration) - duration + 1, dest, cb)
   })
+  reader.pipe(writer);
 }
 
 function getPriority(alias) {
