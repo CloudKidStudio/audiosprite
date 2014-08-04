@@ -1,27 +1,25 @@
 [![Build Status](https://secure.travis-ci.org/tonistiigi/audiosprite.png)](http://travis-ci.org/tonistiigi/audiosprite)
 
-### What?
+This is a `ffmpeg` wrapper that will take in **multiple audio files** and combines them **into a single file**. Silent gaps will be put between the parts so that every new part starts from full second and there is at least 1 second pause between every part. The final file will be exported in `mp3`, `ogg`, `ac3`, `m4a` and `caf`(IMA-ADPCM) to support as many devices as possible. This tool will also generate a `JSON` file that is compatible with [SwishSprite](https://github.com/CloudKidStudio/SwishSprite).
 
-This is a `ffmpeg` wrapper that will take in **multiple audio files** and combines them **into a single file**. Silent gaps will be put between the parts so that every new part starts from full second and there is at least 1 second pause between every part. The final file will be exported in `mp3`, `ogg`, `ac3`, `m4a` and `caf`(IMA-ADPCM) to support as many devices as possible. This tool will also generate a `JSON` file that is compatible with [zynga/jukebox](https://github.com/zynga/jukebox) framework.
+## Purpose
 
-### Why?
+iOS, Windows Phone and some Android phones have very limited HTML5 audio support. They only support playing single file at a time and loading in new files requires user interaction and has a big latency. To overcome this there is a technique to combine all audio into single file and only play/loop certain parts of that file.
 
-iOS, Windows Phone and some Android phones have very limited HTML5 audio support. They only support playing single file at a time and loading in new files requires user interaction and has a big latency. To overcome this there is a technique to combine all audio into single file and only play/loop certain parts of that file. [zynga/jukebox](https://github.com/zynga/jukebox) is a audio framework that uses this technique.  [digitalfruit/limejs](https://github.com/digitalfruit/limejs) is a HTML5 game framework that includes Jukebox and lets you add audio to your games using audio sprites.
-
-###Installation
+## Installation
 
 ```
 npm install -g audiosprite
 ```
 
-#### Hints for Windows users
+### Hints for Windows users
 
 - You need to install [Node.js](https://www.nodejs.org/)
 - Use [Git Bash](http://git-scm.com/download/win) instead of Command Line or Powershell
 - Download [ffmpeg](http://ffmpeg.zeranoe.com/builds/) and include it in your path `export PATH=$PATH:path/to/ffmpeg/bin`
 - IMA-ADPCM(the fastest iPhone format) will only be generated if you are using OSX.
 
-###Usage
+## Usage
 
 ```
 > audiosprite --help
@@ -81,15 +79,15 @@ info: All done
 }
 ```
 
-####Setting autoplay track
+### Setting autoplay track
 
 You can use `--autoplay` option to set a track that will start playing automatically. This track is then marked as autoplay and looping in the JSON. This syntax is Jukebox framework specific.
 
-####Custom silent track
+### Custom silent track
 
 On some cases starting and pausing a file has bigger latency than just setting playhead position. You may get better results if your file is always playing. `--silence <duration>` option will generate extra track named *silence* that you can play instead of pausing the file.
 
-####Usage with [Swish Sprite](https://github.com/CloudKidStudio/SwishSprite)
+### Usage with [Swish Sprite](https://github.com/CloudKidStudio/SwishSprite)
 
 Generated JSON file can be passed straight into `cloudkid.SwishSprite` constructor. Check out [Swish Sprite documentation](http://cloudkidstudio.github.io/SwishSprite/) more info.
 
