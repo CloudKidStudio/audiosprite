@@ -17,6 +17,11 @@ var optimist = require('optimist')
   , 'default': ''
   , describe: 'The JSON list of audio aliases by priority.'
   })
+  .options('loop', {
+    alias: 'u'
+  , 'default': ''
+  , describe: 'Comma separated list of aliases to allow looping.'
+  })
   .options('export', {
     alias: 'e'
   , 'default': ''
@@ -57,9 +62,9 @@ var optimist = require('optimist')
   , describe: 'Show this help message.'
   })
   .options('bitrate', {
-	alias: 'b'
-	, 'default':'128'
-	, describe: 'The bitrate of the output file. e.g. 128 for 128 kbs. Note - works for m4a, ogg, and mp3 files.'
+  alias: 'b'
+  , 'default':'128'
+  , describe: 'The bitrate of the output file. e.g. 128 for 128 kbs. Note - works for m4a, ogg, and mp3 files.'
   })
 
 var argv = optimist.argv
@@ -95,6 +100,11 @@ if (argv.priority){
     priority = (JSON.parse(fs.readFileSync(argv.priority, "utf8")));
   }
   catch(e){}
+}
+
+var loops = [];
+if (argv.loop){
+  loops = argv.loop.split(',');
 }
 
 var offsetCursor = 0
@@ -191,7 +201,7 @@ function appendFile(name, src, dest, cb) {
     json.spritemap[name] = {
       start: offsetCursor
     , end: offsetCursor + duration
-    , loop: name === argv.autoplay
+    , loop: name === argv.autoplay || loops.indexOf(name) !== -1
     , priority: getPriority(name)
     }
     offsetCursor += duration
