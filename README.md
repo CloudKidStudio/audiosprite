@@ -91,7 +91,7 @@ On some cases starting and pausing a file has bigger latency than just setting p
 
 ####Usage with [Swish Sprite](https://github.com/CloudKidStudio/SwishSprite)
 
-Generated JSON file can be passed straight into `cloudkid.SwishSprite` constructor. Check out Jukebox documentation/demos for more info.
+Generated JSON file can be passed straight into `cloudkid.SwishSprite` constructor. Check out [Swish Sprite documentation](http://cloudkidstudio.github.io/SwishSprite/) more info.
 
 ```js
 // Load the audiosprite map JSON with jQuery
